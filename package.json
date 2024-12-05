@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@line/bot-sdk": "^9.5.0",
     "linebot": "^1.6.1"
   }
 }

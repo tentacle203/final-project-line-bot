@@ -1,17 +1,16 @@
-'use strict';
+require('dotenv').config();
 
 const line = require('@line/bot-sdk');
 const express = require('express');
 
 // create LINE SDK config from env variables
 const config = {
+  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
   channelSecret: process.env.CHANNEL_SECRET,
 };
 
 // create LINE SDK client
-const client = new line.messagingApi.MessagingApiClient({
-  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
-});
+const client = new line.Client(config);
 
 // create Express app
 // about Express itself: https://expressjs.com/
@@ -36,14 +35,11 @@ function handleEvent(event) {
     return Promise.resolve(null);
   }
 
-  // create an echoing text message
+  // create a echoing text message
   const echo = { type: 'text', text: event.message.text };
 
   // use reply API
-  return client.replyMessage({
-    replyToken: event.replyToken,
-    messages: [echo],
-  });
+  return client.replyMessage(event.replyToken, echo);
 }
 
 // listen on port

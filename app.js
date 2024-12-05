@@ -1,9 +1,9 @@
 var linebot = require('linebot');
 
 var bot = linebot({
-    channelId: CHANNEL_ID,
-    channelSecret: CHANNEL_SECRET,
-    channelAccessToken: CHANNEL_ACESS_TOKEN
+    channelId: process.env.CHANNEL_ID,
+    channelSecret: process.env.CHANNEL_SECRET,
+    channelAccessToken: process.env.CHANNEL_ACESS_TOKEN
 });
 
 bot.on('message', function (event) {

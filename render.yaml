@@ -1,40 +1,14 @@
 services:
 - type: web
-  name: line-bot-nodejs-echo
+  name: final-project-line-bot
   env: node
-  repo: https://github.com/line/line-bot-sdk-nodejs.git
-  buildCommand: cd examples/echo-bot;npm install
-  startCommand: cd examples/echo-bot;node .
+  repo: https://github.com/tentacle203/final-project-line-bot.git
+  buildCommand: npm install
+  startCommand: node .
   plan: free
   autoDeploy: false
   envVars:
-  - key: CHANNEL_ACCESS_TOKEN
+  - key: S7aeIGo8DS+uO/xvm6KNj83Y5+CDeTiOcdd++Pp0pn24y+JBdN51+8LcQd/pQoLWi9TGze0QflztQEtiRH4ZuVMNmtjL95Srb5f1twBYfsgDP7yzwiPbAy5J8JjpVjLhi/epkg0E/VxZhVgZHjDm0QdB04t89/1O/w1cDnyilFU=
     sync: false
-  - key: CHANNEL_SECRET
+  - key: f504b460adc0fc41a844eed917f7d85d
     sync: false
-# - type: web
-#   name: line-bot-nodejs-echo-ts
-#   env: node
-#   repo: https://github.com/line/line-bot-sdk-nodejs.git
-#   buildCommand: cd examples/echo-bot-ts;npm install;npm run build
-#   startCommand: cd examples/echo-bot-ts;npm start
-#   plan: free
-#   autoDeploy: false
-#   envVars:
-#   - key: CHANNEL_ACCESS_TOKEN
-#     sync: false
-#   - key: CHANNEL_SECRET
-#     sync: false
-# - type: web
-#   name: line-bot-nodejs-kitchensink
-#   env: node
-#   repo: https://github.com/line/line-bot-sdk-nodejs.git
-#   buildCommand: cd examples/kitchensink;npm run build-sdk;npm install
-#   startCommand: cd examples/kitchensink;BASE_URL=$RENDER_EXTERNAL_URL npm start
-#   plan: free
-#   autoDeploy: false
-#   envVars:
-#   - key: CHANNEL_ACCESS_TOKEN
-#     sync: false
-#   - key: CHANNEL_SECRET
-#     sync: false

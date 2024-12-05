@@ -1,23 +1,49 @@
-var linebot = require('linebot');
+require('dotenv').config();
 
-var bot = linebot({
-    channelId: '2006641202',
-    channelSecret: 'f504b460adc0fc41a844eed917f7d85d',
-    channelAccessToken: 'S7aeIGo8DS+uO/xvm6KNj83Y5+CDeTiOcdd++Pp0pn24y+JBdN51+8LcQd/pQoLWi9TGze0QflztQEtiRH4ZuVMNmtjL95Srb5f1twBYfsgDP7yzwiPbAy5J8JjpVjLhi/epkg0E/VxZhVgZHjDm0QdB04t89/1O/w1cDnyilFU='
-});
+const line = require('@line/bot-sdk');
+const express = require('express');
 
-bot.on('message', function (event) {
-    // event.message.text是使用者傳給bot的訊息
-    // 準備要回傳的內容
-    var replyMsg = `你剛剛是說${event.message.text}嗎？`;
-    // 透過event.reply(要回傳的訊息)方法將訊息回傳給使用者
-    event.reply(replyMsg).then(function (data) {
-        // 當訊息成功回傳後的處理
-    }).catch(function (error) {
-        // 當訊息回傳失敗後的處理
+// create LINE SDK config from env variables
+const config = {
+  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
+  channelSecret: process.env.CHANNEL_SECRET,
+};
+
+// create LINE SDK client
+const client = new line.Client(config);
+
+// create Express app
+// about Express itself: https://expressjs.com/
+const app = express();
+
+// register a webhook handler with middleware
+// about the middleware, please refer to doc
+app.post('/callback', line.middleware(config), (req, res) => {
+  Promise
+    .all(req.body.events.map(handleEvent))
+    .then((result) => res.json(result))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).end();
     });
 });
 
-bot.listen('/linewebhook', 3000, function () {
-    console.log('LINE BOT IS RUNNING');
+// event handler
+function handleEvent(event) {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    // ignore non-text-message event
+    return Promise.resolve(null);
+  }
+
+  // create a echoing text message
+  const echo = { type: 'text', text: event.message.text };
+
+  // use reply API
+  return client.replyMessage(event.replyToken, echo);
+}
+
+// listen on port
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`listening on ${port}`);
 });

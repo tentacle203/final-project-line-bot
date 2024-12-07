@@ -49,8 +49,8 @@ function handleEvent(event) {
   // create a echoing text message
   const echo = { type: 'text', text: "收到您的訊息囉" };
 
-  clientMQTT.publish(topic, event.message, () => {
-    console.log(`Message sent: ${event.message}`);
+  clientMQTT.publish(topic, event.message.text, () => {
+    console.log(`Message sent: ${event.message.text}`);
     clientMQTT.end(); // Close the connection after publishing
   });
 

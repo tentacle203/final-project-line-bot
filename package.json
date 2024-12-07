@@ -3,6 +3,7 @@
     "@line/bot-sdk": "^9.5.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
-    "linebot": "^1.6.1"
+    "linebot": "^1.6.1",
+    "mqtt": "^5.10.3"
   }
 }

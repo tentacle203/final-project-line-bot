@@ -1,5 +1,13 @@
 require('dotenv').config();
 
+const mqtt = require('mqtt');
+
+const clientMQTT = mqtt.connect('mqtt://broker.emqx.io:1883');
+
+// Define the topic and message
+const topic = '/f3099158d631c34dbfd16955960ea4fe8637bce0dd8443aa81cf2d02bd6d67d5';
+const message = 'This message is sent from line!';
+
 const line = require('@line/bot-sdk');
 const express = require('express');
 
@@ -28,6 +36,10 @@ app.post('/callback', line.middleware(config), (req, res) => {
     });
 });
 
+clientMQTT.on('connect', () => {
+  console.log('Connected to MQTT broker');
+});
+
 // event handler
 function handleEvent(event) {
   if (event.type !== 'message' || event.message.type !== 'text') {
@@ -36,7 +48,12 @@ function handleEvent(event) {
   }
 
   // create a echoing text message
-  const echo = { type: 'text', text: event.message.text };
+  const echo = { type: 'text', text: "收到您的訊息囉" };
+
+  clientMQTT.publish(topic, message, () => {
+    console.log(`Message sent: ${message}`);
+    clientMQTT.end(); // Close the connection after publishing
+  });
 
   // use reply API
   return client.replyMessage(event.replyToken, echo);

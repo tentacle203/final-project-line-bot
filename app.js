@@ -6,7 +6,6 @@ const clientMQTT = mqtt.connect('mqtt://broker.emqx.io:1883');
 
 // Define the topic and message
 const topic = '/f3099158d631c34dbfd16955960ea4fe8637bce0dd8443aa81cf2d02bd6d67d5';
-const message = 'This message is sent from line!';
 
 const line = require('@line/bot-sdk');
 const express = require('express');
@@ -50,8 +49,8 @@ function handleEvent(event) {
   // create a echoing text message
   const echo = { type: 'text', text: "收到您的訊息囉" };
 
-  clientMQTT.publish(topic, message, () => {
-    console.log(`Message sent: ${message}`);
+  clientMQTT.publish(topic, event.message, () => {
+    console.log(`Message sent: ${event.message}`);
     clientMQTT.end(); // Close the connection after publishing
   });
 

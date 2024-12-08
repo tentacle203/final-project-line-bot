@@ -42,8 +42,8 @@ function handleEvent(event) {
   // create a echoing text message
   const echo = { type: 'text', text: "收到您的訊息囉" };
 
-  client.on('connect', () => {
-    client.publish(topic, event.message.text, { qos: 0, retain: false }, (error) => {
+  clientMQTT.on('connect', () => {
+    clientMQTT.publish(topic, event.message.text, { qos: 0, retain: false }, (error) => {
         if (error) {
             console.error('Publish error:', error);
         } else {

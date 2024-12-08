@@ -56,7 +56,6 @@ function handleEvent(event) {
 
   clientMQTT.publish(topic, event.message.text, () => {
     console.log(`Message sent: ${event.message.text}`);
-    clientMQTT.end(); // Close the connection after publishing
   });
 
   // use reply API

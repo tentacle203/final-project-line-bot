@@ -1,16 +1,8 @@
 require('dotenv').config();
 
 const mqtt = require('mqtt');
-const clientId = 'f3099158d631c34dbfd16955960ea4fe8637bce0dd8443aa81cf2d02bd6d67d5';
-const clientMQTT = mqtt.connect('mqtt://broker.emqx.io:1883', {
-  clientId,
-  clean: false,
-  connectTimeout: 5000,
-  username: 'emqx',
-  password: 'public',
-  reconnectPeriod: 1000,
-})
-const topic = '/f3099158d631c34dbfd16955960ea4fe8637bce0dd8443aa81cf2d02bd6d67d5/msg';
+const clientMQTT = mqtt.connect('mqtt://broker.emqx.io:1883');
+const topic = '/final-project-line-bot/msg';
 
 const line = require('@line/bot-sdk');
 const express = require('express');

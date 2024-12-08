@@ -32,10 +32,6 @@ app.post('/callback', line.middleware(config), (req, res) => {
     });
 });
 
-clientMQTT.on('connect', () => {
-  console.log('Connected to MQTT broker');
-});
-
 // event handler
 function handleEvent(event) {
   if (event.type !== 'message' || event.message.type !== 'text') {
@@ -46,9 +42,16 @@ function handleEvent(event) {
   // create a echoing text message
   const echo = { type: 'text', text: "收到您的訊息囉" };
 
-  clientMQTT.publish(topic, event.message.text, () => {
-    console.log(`Message sent: ${event.message.text}`);
-  });
+  client.on('connect', () => {
+    client.publish(topic, event.message.text, { qos: 0, retain: false }, (error) => {
+        if (error) {
+            console.error('Publish error:', error);
+        } else {
+            console.log(`Message "${event.message.text}" sent to topic "${topic}"`);
+        }
+        client.end(); // 結束連線
+    });
+});
 
   // use reply API
   return client.replyMessage(event.replyToken, echo);
